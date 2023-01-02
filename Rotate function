@@ -1,0 +1,55 @@
+//Aporach basic math
+Input: nums = [4,3,2,6]
+Output: 26
+Explanation:
+F(0) = (0 * 4) + (1 * 3) + (2 * 2) + (3 * 6) = 0 + 3 + 4 + 18 = 25
+F(1) = (0 * 6) + (1 * 4) + (2 * 3) + (3 * 2) = 0 + 4 + 6 + 6 = 16
+F(2) = (0 * 2) + (1 * 6) + (2 * 4) + (3 * 3) = 0 + 6 + 8 + 9 = 23
+F(3) = (0 * 3) + (1 * 2) + (2 * 6) + (3 * 4) = 0 + 2 + 12 + 12 = 26
+So the maximum value of F(0), F(1), F(2), F(3) is F(3) = 26.
+
+F(0)=0a0 + 1a1 + 2a2 + 3a3 +.....+n-1a[n-1].
+F(1) = 0a[n-1]+ 1a0 + 2a1 + 3a2 + 4a3 +.....+n-1*a[n-2].
+
+Now, Subtract F(1)-F(0)
+F(1)-F(0)=a0 + a1 + a2 + ...+a[n-2] -(n-1)a[n-1];
+F(1)-F(0)=a0 + a1 + a2 + ... +a[n-2] + a[n-1] - na[n-1];
+Now, F(1)-F(0)= Summation of all elements of array - na[n-1];
+F(1)=F(0)+Summation of all elements of array - na[n-1];
+
+Similarly, F(2) = F(1)+Summation of all elements of array - na[n-2];
+F(3)= F(2)+Summation of all elements of array - na[n-3];
+
+and so on..
+
+Store the max values for every function u will get the answer in the end.
+
+Approach
+Code the above maths algo in code.
+Steps to Code.
+
+First calculate the F(0) and sum of all elements of the array and initialise the answer with F(0).
+Take prev variable and store the F(0) in it.
+Now loop from i=1 to i=n-1
+Keep finding F(i) = prev + sum -n*(arr[n-i]);
+Keep updating the answer and prev value.
+In the end u will get the answer
+Complexity
+Time complexity: O(n)
+Space complexity: O(1)
+class Solution {
+    public int maxRotateFunction(int[] nums) {
+        int n=nums.length;
+        int sum=0,temp=0;
+        for(int i=0;i<n;i++){
+            sum+=nums[i];
+            temp+=i*nums[i];
+        }
+       int res=temp;
+            for(int i=0;i<n;i++){
+                temp=temp-sum+n *(nums[i]);
+                res=Math.max(temp,res);
+            }
+        return res;
+    } 
+    }
